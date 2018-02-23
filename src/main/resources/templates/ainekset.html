@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Raaka-aineet</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h2>Raaka-aineet</h2>
+
+        <table>
+            <tr th:each="mixeri : ${mixerit}">
+                <td>
+                <span th:text="${mixeri.nimi}">nimi</span>
+                </td>
+                <td>
+                <form method="POST" th:action="@{deletemixer/{id}(id=${mixeri.id})}">
+                    <input type="submit" value="Poista">
+                </form>
+                </td>    
+                    
+            </tr>
+        </table>
+
+        <h1>Lisää uusi raaka-aine</h1>
+
+        <form method="POST" action="/savemixer">
+            Raaka-aineen nimi:<br/>
+            <input type="text" name="aine"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+
+        <a href="../">Drinkkilistaukseen</a>
+
+    </body>
+</html>

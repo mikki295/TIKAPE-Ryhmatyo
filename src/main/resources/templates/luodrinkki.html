@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Luo oma drinkki</h1>
+
+        <table>
+            <tr th:each="drinkki : ${drinkit}">
+                <td>
+                    <a th:href="@{drinkki/{id}(id=${drinkki.id})}" mehtod="POST">
+                        <span th:text="${drinkki.nimi}">Drinkin nimi</span>
+                    </a>
+                </td>
+                <td>
+                    <form method="POST" th:action="@{deletedrink/{id}(id=${drinkki.id})}">
+                        <input type="submit" value="Poista">
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <h4>Lisää uusi</h4>
+
+        <form method="POST" action="/savedrink">
+            Drinkin nimi:</br>
+            <input type="text" name="drinkki"/></br>
+            <input type="submit" value="Lisää">
+        </form>
+
+        <h4>Lisää raaka-aineita</h4>
+
+        <form method="POST" action="/drinkinluonti">
+            Drinkin nimi:</br>
+            <select name="Drinkki" >
+                <option th:each="drinkki : ${drinkit}">
+                <span th:text="${drinkki.nimi}">nimi</span>
+                </option>
+            </select></br>
+            Lisättävä raaka-aine</br>
+            <select name="Mixeri">
+                <option th:each="mixeri : ${mixerit}">
+                <span th:text="${mixeri.nimi}">nimi</span>
+                </option>
+            </select></br>
+            Ainekset lisätään drinkkiin samassa järjestyksessä kuin ne lisätään tietokantaan</br>
+            Määrä</br>
+            <input type="text" name="maara"/></br>
+            Ohje</br>
+            <input type="text" name="ohje"></br>
+            <input type="submit" value="Lisää">
+        </form></br>
+
+        <a href="../">Drinkkilistaukseen</a>
+
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Ohje</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        
+        <h1 th:text="${mixerit[0].drinkki}">Drinkki</h1>
+        
+        <ul>
+            <li th:each="ainesosa : ${mixerit}">
+                <span th:text="${ainesosa.mixeri}"></span>,
+                <span th:text="${ainesosa.maara}"></span>
+            </li>
+        </ul>
+        
+        <span>
+        Drinkin ohje:
+        </span></br>
+        </br>
+        
+        
+        
+        <tr th:each="ainesosa : ${mixerit}">
+            <span th:text="${ainesosa.ohje}">ohje</span>.
+        </tr></br></br>
+
+        
+        <a href="../">Drinkkilistaukseen</a>
+        
+    </body>
+</html>

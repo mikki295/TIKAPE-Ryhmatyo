@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Drinkkilistasovellus</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h1>Drinkkilista</h1>
+        
+        <ul>
+            <li th:each="drinkki : ${drinkit}">
+                <a th:href="@{drinkki/{id}(id=${drinkki.id})}" method="POST">
+                    <span th:text="${drinkki.nimi}">Drinkin nimi</span>
+                </a>
+            </li>
+        </ul>
+        <br/>
+        
+        <a href="luodrinkki">Luo uusi drinkki</a> <br/>
+        <a href="ainekset">
+            Tarkastele ja lisää aineksia
+        </a>
+    </body>
+</html>
