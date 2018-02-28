@@ -110,17 +110,20 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
         } catch (Exception ex) {
             Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
+        
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM DrinkkiMixeri WHERE drinkki_id = ?");
+        stmt.setInt(1,key);
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+        
+        stmt = conn.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
 
         stmt.setInt(1, key);
         stmt.executeUpdate();
         stmt.close();
         
-        stmt = conn.prepareStatement("DELETE FROM DrinkkiMixeri WHERE drinkki_id = ?");
-        stmt.setInt(1,key);
-        stmt.executeUpdate();
-        stmt.close();
-        conn.close();
+        
     }
 
     private Drinkki save(Drinkki drinkki) throws SQLException {

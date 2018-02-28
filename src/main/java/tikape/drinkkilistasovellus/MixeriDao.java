@@ -6,7 +6,6 @@
 package tikape.drinkkilistasovellus;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,21 +25,12 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
     public MixeriDao(Database database) {
         this.database = database;
     }
-    
-    public static Connection getConnection() throws Exception {
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        if (dbUrl != null && dbUrl.length() > 0) {
-            return DriverManager.getConnection(dbUrl);
-        }
-
-        return DriverManager.getConnection("jdbc:sqlite:drinkkitietokanta.db");
-    }
 
     @Override
     public Mixeri findOne(Integer key) throws SQLException {
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = database.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(MixeriDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +57,7 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
         List<Mixeri> mixerit = new ArrayList<>();
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = database.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(MixeriDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,12 +86,19 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
     public void delete(Integer key) throws SQLException {
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = database.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(MixeriDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Mixeri WHERE id = ?");
-
+        
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM DrinkkiMixeri "
+                + "WHERE mixeri_id = ?");
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+        stmt.close();
+        
+        
+        stmt = conn.prepareStatement("DELETE FROM Mixeri WHERE id = ?");
         stmt.setInt(1, key);
         stmt.executeUpdate();
 
@@ -112,7 +109,7 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
     private Mixeri update(Mixeri mixeri) throws SQLException {
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = database.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(MixeriDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,7 +127,7 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
     private Mixeri save(Mixeri mixeri) throws SQLException {
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = database.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(MixeriDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -154,7 +151,5 @@ public class MixeriDao implements Dao<Mixeri, Integer>{
 
         return d;
     }
-    
-    
     
 }
