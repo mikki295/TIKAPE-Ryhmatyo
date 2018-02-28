@@ -152,7 +152,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     }
 
     private Drinkki update(Drinkki drinkki) throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PreparedStatement stmt = conn.prepareStatement("UPDATE Drinkki SET nimi = ?");
         stmt.setString(1, drinkki.getNimi());
 
@@ -174,7 +179,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
      */
     public List<DrinkkiOhje> findMixers(int id) throws SQLException {
         List<DrinkkiOhje> mixerit = new ArrayList<>();
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
  
 
         PreparedStatement stmt = conn.prepareStatement("SELECT Drinkki.nimi AS drinkki,"
@@ -204,7 +214,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     }
     
     public void deleteAll() throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Drinkki;");
         stmt.executeUpdate();
@@ -216,7 +231,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     }
     
     public void addMixeriToDrink(String drinkkiNimi, String mixeriNimi, int jarjestysnro, String maara, String ohje) throws SQLException{
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //Hakee drinkin id:m
         PreparedStatement stmt = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
