@@ -171,6 +171,18 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
 
     }
     
+    public void deleteAll() throws SQLException {
+        Connection conn = database.getConnection();
+        
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Drinkki;");
+        stmt.executeUpdate();
+        stmt.close();
+        stmt = conn.prepareStatement("DELETE FROM DrinkkiMixeri;");
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+    
     public void addMixeriToDrink(String drinkkiNimi, String mixeriNimi, int jarjestysnro, String maara, String ohje) throws SQLException{
         Connection conn = database.getConnection();
         
@@ -207,6 +219,8 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
         stmt.close();
         conn.close();
     }
+    
+    
     
 
 }

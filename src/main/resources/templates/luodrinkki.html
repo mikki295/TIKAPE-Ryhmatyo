@@ -6,12 +6,16 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Luodrinkki</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <h1>Luo oma drinkki</h1>
+        
+        <form action="/lanaa" method="POST">
+            <input type="submit" value="LANAA KAIKKI!"/>
+        </form>
 
         <table>
             <tr th:each="drinkki : ${drinkit}">
