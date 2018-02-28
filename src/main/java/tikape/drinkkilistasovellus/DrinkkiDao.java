@@ -242,18 +242,24 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
         PreparedStatement stmt = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
         stmt.setString(1, drinkkiNimi);
         ResultSet rs = stmt.executeQuery();
+        
+        rs.next();
         int drinkki_id = rs.getInt("id");
         stmt.close();
         rs.close();
+        
         
         
         //Hakee mixerin id:n
         stmt = conn.prepareStatement("SELECT id FROM Mixeri WHERE nimi = ?");
         stmt.setString(1, mixeriNimi);
         rs = stmt.executeQuery();
+        
+        rs.next();
         int mixeri_id = rs.getInt("id");
         stmt.close();
         rs.close();
+        
         
         
         
