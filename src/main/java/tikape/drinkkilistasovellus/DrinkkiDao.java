@@ -6,11 +6,14 @@
 package tikape.drinkkilistasovellus;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,10 +26,24 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     public DrinkkiDao(Database database) {
         this.database = database;
     }
+    
+    public static Connection getConnection() throws Exception {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        if (dbUrl != null && dbUrl.length() > 0) {
+            return DriverManager.getConnection(dbUrl);
+        }
+
+        return DriverManager.getConnection("jdbc:sqlite:drinkkitietokanta.db");
+    }
 
     @Override
     public Drinkki findOne(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Drinkki WHERE id = ?");
         stmt.setInt(1, key);
 
@@ -51,7 +68,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     @Override
     public List<Drinkki> findAll() throws SQLException {
         List<Drinkki> drinkit = new ArrayList<>();
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM Drinkki");
 
         ResultSet rs = statement.executeQuery();
@@ -82,7 +104,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
      */
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
 
         stmt.setInt(1, key);
@@ -97,7 +124,12 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
     }
 
     private Drinkki save(Drinkki drinkki) throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = null;
+        try {
+            conn = getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(DrinkkiDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Drinkki"
                 + "(nimi)"
                 + "VALUES (?)");
