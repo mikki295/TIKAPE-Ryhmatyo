@@ -115,13 +115,14 @@ public class DrinkkiDao implements Dao<Drinkki, Integer> {
         stmt.setInt(1,key);
         stmt.executeUpdate();
         stmt.close();
-        conn.close();
+        
         
         stmt = conn.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
 
         stmt.setInt(1, key);
         stmt.executeUpdate();
         stmt.close();
+        conn.close();
         
         
     }
